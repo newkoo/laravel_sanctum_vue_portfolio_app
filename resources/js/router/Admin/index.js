@@ -1,4 +1,4 @@
-import { RouteGenerator } from "../../Utils/route_utils";
+import { RouteGenerator } from "../../Utils/routing_tool";
 const pfx = "Admin";
 const routes = [
     RouteGenerator(pfx, "Home", "Home/index")
