@@ -5,7 +5,7 @@
  */
 
 /**
- * @typedef {"Public"|"Admin",""} RouteType
+ * @typedef {"Public"|"Admin"|""} RouteType
  */
 
 /**
@@ -31,6 +31,4 @@ const RouteGenerator = (type, url_path, component_path, childrenRoutes = []) => 
 
     return data;
 }
-
-
 export { RouteGenerator }
