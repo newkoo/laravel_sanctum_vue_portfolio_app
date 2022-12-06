@@ -1,5 +1,7 @@
 <template>
-    <RouterView />
+    <div>
+        page not found
+    </div>
 </template>
 
 <script setup>

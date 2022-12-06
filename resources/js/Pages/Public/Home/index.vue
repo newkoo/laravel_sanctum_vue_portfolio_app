@@ -1,5 +1,7 @@
 <template>
-    <RouterView />
+    <div>
+        Welcome Homepage
+    </div>
 </template>
 
 <script setup>
