@@ -41,4 +41,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function checkMail($mail)
+    {
+        return self::where('email', $mail)->first() ? true : false;
+    }
 }
