@@ -18,7 +18,7 @@
  */
 const RouteGenerator = (type, url_path, component_path, childrenRoutes = []) => {
     let component, data;
-    type ? url_path = `/${type}/${url_path}` : null;
+    type == "Admin" ? url_path = `/${type}/${url_path}` : null;
     typeof component_path === "string"
         ? (component_path = `../Pages/${type}/${component_path}.vue`, component = () => import(/* @vite-ignore */component_path))
         : (component = component_path, component_path = component.__file.split('resources/js/')[1])
