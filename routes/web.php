@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/{any}', function () {
     return view('main');
-});
-
-
-Route::get('/{pathMatch}', fn () => view('main'))->where('pathMatch', '.*');
+})->where('any', '^(?!api).*$');
