@@ -28,10 +28,18 @@ export default (errObj, callBack, getMsg = true) => {
     if (typeof errObj.response !== "undefined") {
         let response = errObj.response;
         if (getMsg) {
-            Swal.fire({
+            let swalContent = {
                 icon: "error",
                 text: response.data.msg,
-            }).then((typeof callBack === "function" ? callBack(response.data) : null))
+            };
+            if (response.status === 422) {
+                let tmpErr = [];
+                Object.keys(response.data.errors).forEach(e => response.data.errors[e].forEach(x => tmpErr.push(x)));
+                delete (swalContent.text), swalContent.html = tmpErr.join("<br>");
+            } else if (response.status === 404) {
+                swalContent.text = response.data.message;
+            }
+            Swal.fire(swalContent).then((typeof callBack === "function" ? callBack(response.data) : null))
         }
         else return response;
     }
