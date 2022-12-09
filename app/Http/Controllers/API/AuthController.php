@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $msg = "Hatalı Giriş!";
+        $msg = "Wrong Informations!";
         $success = false;
         $data = [];
         $errors = [];
@@ -36,7 +36,7 @@ class AuthController extends Controller
                 'token' => $user->createToken('MyApp')->plainTextToken,
                 'name' => $user->name
             ];
-            $msg = "Kayıt Başarılı";
+            $msg = "Register Success!";
             $success = true;
         }
 
@@ -52,7 +52,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $msg = "Giriş Bilgileriniz Yanlış";
+        $msg = "Wrong Login Credentials";
         $success = false;
         $data = [];
         $http_code = 400;
@@ -65,7 +65,7 @@ class AuthController extends Controller
             ];
             $success = true;
             $http_code = 200;
-            $msg = "Giriş Başarılı";
+            $msg = "Login Successful. Redirecting..";
         }
         $response = [
             'msg' => $msg,
