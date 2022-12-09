@@ -11,7 +11,6 @@ const routes = [
     RouteGenerator('', '/:pathMatch(.*)*', NotFound),
     RouteGenerator('', '/login', Login)
 ];
-console.log(routes);
 
 const router = createRouter({
     history: createWebHistory(),
