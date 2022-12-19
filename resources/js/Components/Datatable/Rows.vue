@@ -33,7 +33,7 @@ const initializeNodes = (props, emit) => {
                                     let clickData = {
                                         name: triggerData.emitName,
                                         firstParam: triggerData.firstParam,
-                                        secondParam: triggerData !== undefined ? triggerData.secondParam : null,
+                                        secondParam: triggerData.secondParam !== undefined ? triggerData.secondParam : null,
                                         event: event
                                     }
                                     emit("triggeredevent", clickData)
