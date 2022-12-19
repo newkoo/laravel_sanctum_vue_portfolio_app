@@ -23,28 +23,13 @@
                             </select>
                         </div>
                     </div>
-                    <div class="table-responsive" v-if="!loading">
-                        <table class="table align-items-center table-flush" :id="tableId">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th
-                                        scope="col"
-                                        v-for="(item, index) in tableHeads"
-                                        :key="index"
-                                    >{{ item }}</th>
-                                </tr>
-                                <tr></tr>
-                            </thead>
-                            <tbody>
-                                <tr
-                                    v-for="row in currentData"
-                                    :key="row"
-                                    :id="`vData-${row['id']}`"
-                                >
-                                    <td v-for="cols in row" :key="cols" v-html="cols"></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="table-responsive">
+                        <Rows
+                            :current-data="currentData"
+                            :table-id="tableId"
+                            :table-heads="tableHeads"
+                            @triggeredevent="emitTriggered"
+                        />
                     </div>
                     <div class="card-footer py-4">
                         <div class="row">
@@ -72,12 +57,13 @@
 </template>
 
 <script setup>
-import axios from "axios";
 import Pagination from "./Pagination.vue";
 import { uuid } from "vue-uuid"; // uuid object is also exported to things
 import { ref } from '@vue/reactivity';
 import { computed, watch } from '@vue/runtime-core';
-const emit = defineEmits(["tableRendered", "dataChanged"]);
+import { axios_request } from "../../Utils/axios";
+import Rows from "./Rows.vue";
+const emit = defineEmits(["tableRendered", "datachanged", "eventTriggered"]);
 const props = defineProps({
     filter: Object,
     requestURL: String,
@@ -115,7 +101,7 @@ const generateId = () => {
     emit("tableRendered", uniq);
 };
 const fireDataChanged = () => {
-    emit("datachanged");
+    emit("datachanged", currentData.value);
 };
 const changeLimit = (event) => {
     limit.value = Number(event.target.value);
@@ -133,7 +119,7 @@ const serializeExtractedData = () => {
 };
 const getData = () => {
     loading.value = true;
-    axios({
+    axios_request({
         method: props.method,
         url: props.requestURL,
         data: {
@@ -149,11 +135,15 @@ const getData = () => {
             var tempColumn = [];
             Object.keys(ax).forEach((key) => {
                 if (serializedExtract.value[key]) {
+                    let tmpColumnData = {
+                        name: key,
+                        value: ax[key]
+                    };
                     if (typeof props.dataContent[serializedExtract.value[key] - 1].render !== "undefined") {
-                        tempColumn[serializedExtract.value[key] - 1] = props.dataContent[serializedExtract.value[key] - 1].render(ax,ax[key],serializedExtract.value[key] - 1);
-                    } else {
-                        tempColumn[serializedExtract.value[key] - 1] = ax[key];
+                        tmpColumnData = { ...tmpColumnData, ...props.dataContent[serializedExtract.value[key] - 1].render(ax, ax[key], tempRow.length) };
                     }
+                    tempColumn[serializedExtract.value[key] - 1] = tmpColumnData;
+
 
                 }
                 if (props.itemId && key == props.itemId) tempColumn[props.itemId] = ax[props.itemId];
@@ -177,6 +167,10 @@ const getData = () => {
     }).catch((err) => { });
 };
 
+const emitTriggered = (args) => {
+    emit("eventTriggered", args)
+}
+
 const tableHeads = computed(() => props.dataContent.map((e) => e.headText));
 
 const getFilteredDataText = computed(() => {
@@ -194,9 +188,7 @@ const inComponentRefresh = () => {
 }
 
 generateId();
-if (props.requestURL) {
-    getData();
-};
+if (props.requestURL) getData();
 </script>
 <style scoped>
 @import "./datatable.css";
