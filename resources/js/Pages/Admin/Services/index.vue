@@ -10,60 +10,15 @@
                 </div>
             </div>
 
-            <div class="table">
-                <div class="table_filter">
-                    <span class="table_filter-Btn">
-                        <i class="fas fa-ellipsis-h"></i>
-                    </span>
-                    <div>
-                        <ul class="table_filter-list">
-                            <li>
-                                <p class="table_filter-link table_filter-link--active">All</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="table_search">
-                    <div class="table_search-wrapper">
-                        <select class="table_search-select" name id>
-                            <option value>Filter</option>
-                        </select>
-                    </div>
-                    <div class="relative">
-                        <i class="table_search-input--icon fas fa-search"></i>
-                        <input class="table_search--input" type="text" placeholder="Search Service" />
-                    </div>
-                </div>
-
-                <div class="service_table-heading">
-                    <p>Title</p>
-                    <p>Icon</p>
-                    <p>Description</p>
-                    <p>Actions</p>
-                </div>
-                <!-- item 1 -->
-                <div
-                    class="service_table-items"
-                    v-for="(item, index) in services"
-                    :key="index"
-                    v-if="services.length"
-                >
-                    <p>{{ item.name }}</p>
-                    <button class="service_table-icon">
-                        <i :class="item.icon"></i>
-                    </button>
-                    <p>{{ item.description }}</p>
-                    <div>
-                        <button class="btn-icon success" @click="openModal(true, index)">
-                            <i class="fas fa-pencil-alt"></i>
-                        </button>
-                        <button class="btn-icon danger" @click="deleteItem(item.id)">
-                            <i class="far fa-trash-alt"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <Datatable
+                card-title="Skills"
+                request-u-r-l="/get_all_services"
+                method="get"
+                :data-content="dataContent"
+                @datachanged="(tableData = $event, refresh = false)"
+                @event-triggered="eventWatcher"
+                :refresh="refresh"
+            />
         </div>
         <!-------------- SERVICES MODAL --------------->
         <div class="modal main__modal" :class="{ show: showModal }">
@@ -116,23 +71,71 @@ import Swal from 'sweetalert2';
 import { onMounted, ref } from 'vue';
 import { axios_catcher, axios_request } from '../../../Utils/axios';
 import { computed } from '@vue/reactivity';
+import Datatable from '../../../Components/Datatable/Datatable.vue';
 
 const services = ref([]);
+const refresh = ref(false);
 const showModal = ref(false);
 const hideModal = ref(true);
 const editMode = ref(false);
+const tableData = ref([]);
 const formData = ref({
-    name: "",
-    icon: "",
-    description: ""
+    name: null,
+    icon: null,
+    description: null
 });
 const modalTitle = computed(() => `${editMode.value ? `Update` : `Add`} Service`)
+const dataContent = [
+    {
+        data: "name",
+        headText: "Name",
+    },
+    {
+        data: "icon",
+        headText: "Icon"
+    },
+    {
+        data: "description",
+        headText: "Description"
+    },
+    {
+        data: "id",
+        headText: "Actions",
+        render: function (row, data, index) {
+            return {
+                isRaw: false,
+                nodes: [
+                    {
+                        elementType: "button",
+                        isRaw: false,
+                        class: "btn-icon success",
+                        trigger: {
+                            type: "click",
+                            emitName: "openModal",
+                            firstParam: true,
+                            secondParam: index
+                        }, innerHTML: `<i class="fas fa-pencil-alt"></i>`
+                    },
+                    {
+                        elementType: "button",
+                        isRaw: false,
+                        class: "btn-icon danger",
+                        trigger: {
+                            type: "click",
+                            emitName: "deleteItem",
+                            firstParam: data,
+                        }, innerHTML: `<i class="fas fa-trash-alt"></i>`
+                    }
+                ]
+            }
+        }
+    }
+];
 
 //funcs
-const openModal = (edit = false, itemIndex) => (edit ? (editMode.value = true, initService(services.value[itemIndex])) : null, showModal.value = !showModal.value);
+const openModal = (edit = false, itemIndex) => (edit ? (editMode.value = true, initService(tableData.value[itemIndex])) : null, showModal.value = !showModal.value);
 const closeModal = () => (editMode.value = false, showModal.value = !hideModal.value, resetFormData());
-const initService = (service) => Object.keys(service).forEach(e => formData.value[e] = service[e]);
-const getServices = async () => await axios_request.get('/get_all_services').then(response => services.value = response.data.services);
+const initService = (service) => (service.forEach(e => formData.value[e.name] = e.value));
 const createService = async () => {
     await axios_request.post('/create_service', formData.value).then((result) => {
         getServices(), closeModal(), resetFormData();
@@ -141,17 +144,18 @@ const createService = async () => {
         axios_catcher(err);
     });
 }
-const resetFormData = () => Object.keys(formData.value).forEach(e => formData.value[e] = '');
+const resetFormData = () => { Object.keys(formData.value).forEach(e => formData.value[e] = ''), refresh.value = true };
 const updateData = async () => {
     await axios_request.put('/update_service/' + formData.value.id, formData.value).then((result) => {
         Swal.fire("Service Update Successfully", "", "success");
-        getServices(), closeModal(), resetFormData();
+        closeModal(), resetFormData();
     }).catch((err) => {
         axios_catcher(err)
     });
 }
 
 const deleteItem = async (id) => {
+    console.log(id);
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -172,9 +176,10 @@ const deleteItem = async (id) => {
     })
 }
 
-onMounted(async () => {
-    getServices();
-});
+const eventWatcher = (e) => {
+    if (e.name == "openModal") openModal(e.firstParam, e.secondParam)
+    else if (e.name == "deleteItem") deleteItem(e.firstParam);
+};
 </script>
 
 <style lang="scss" scoped>
