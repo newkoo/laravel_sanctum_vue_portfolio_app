@@ -140,7 +140,9 @@ const getData = () => {
                         value: ax[key]
                     };
                     if (typeof props.dataContent[serializedExtract.value[key] - 1].render !== "undefined") {
-                        tmpColumnData = { ...tmpColumnData, ...props.dataContent[serializedExtract.value[key] - 1].render(ax, ax[key], tempRow.length) };
+                        let tmpRenderedCellValue = props.dataContent[serializedExtract.value[key] - 1].render(ax, ax[key]);
+                        if (typeof tmpRenderedCellValue === "string") tmpColumnData.value = tmpRenderedCellValue;
+                        else tmpColumnData = { ...tmpColumnData, ...props.dataContent[serializedExtract.value[key] - 1].render(ax, ax[key], tempRow.length) };
                     }
                     tempColumn[serializedExtract.value[key] - 1] = tmpColumnData;
 
