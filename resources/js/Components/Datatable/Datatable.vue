@@ -69,7 +69,10 @@ const emit = defineEmits(["tableRendered", "datachanged", "eventTriggered"]);
 const props = defineProps({
     filter: Object,
     requestURL: String,
-    method: String,
+    method: {
+        default: "get",
+        type: String
+    },
     refresh: Boolean,
     dataContent: Array,
     headClass: String,
@@ -121,15 +124,16 @@ const serializeExtractedData = () => {
 };
 const getData = () => {
     loading.value = true;
-    axios_request({
+    let dt_axios_params = {
         method: props.method,
         url: props.requestURL,
-        data: {
-            limit: limit.value,
-            currentPage: currentPage.value,
-            externalFilter: props.filter,
-        },
-    }).then((result) => {
+    };
+    let dt_limit_data = { limit: limit.value, current_page: currentPage.value, };
+
+    if (props.method == "get") dt_axios_params.params = dt_limit_data;
+    else dt_axios_params.data = { ...dt_limit_data, external_filter: props.filter };
+
+    axios_request(dt_axios_params).then((result) => {
         let response = result.data;
         var tempRow = [];
         serializeExtractedData();
