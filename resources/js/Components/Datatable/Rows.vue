@@ -50,7 +50,7 @@ const initializeNodes = (props, emit) => {
             }
 
             let nodeProps = {};
-            if (!cellNodes.length) nodeProps.innerHTML = cell.value;
+            if (!cellNodes.length) nodeProps.innerHTML = cell.displayData;
 
             return h(
                 "td",

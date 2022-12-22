@@ -57,6 +57,8 @@
 </template>
 
 <script setup>
+
+//todo get method pagination not sending with get query
 import Pagination from "./Pagination.vue";
 import { uuid } from "vue-uuid"; // uuid object is also exported to things
 import { ref } from '@vue/reactivity';
@@ -137,11 +139,12 @@ const getData = () => {
                 if (serializedExtract.value[key]) {
                     let tmpColumnData = {
                         name: key,
-                        value: ax[key]
+                        value: ax[key],
+                        displayData: ax[key]
                     };
                     if (typeof props.dataContent[serializedExtract.value[key] - 1].render !== "undefined") {
                         let tmpRenderedCellValue = props.dataContent[serializedExtract.value[key] - 1].render(ax, ax[key]);
-                        if (typeof tmpRenderedCellValue === "string") tmpColumnData.value = tmpRenderedCellValue;
+                        if (typeof tmpRenderedCellValue === "string") tmpColumnData.displayData = tmpRenderedCellValue;
                         else tmpColumnData = { ...tmpColumnData, ...props.dataContent[serializedExtract.value[key] - 1].render(ax, ax[key], tempRow.length) };
                     }
                     tempColumn[serializedExtract.value[key] - 1] = tmpColumnData;
