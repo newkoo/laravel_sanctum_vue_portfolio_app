@@ -1,5 +1,5 @@
 <template>
-    <div class="modal main__modal show">
+    <div class="modal main__modal show" @click="handleClickOutside">
         <div class="modal__content">
             <span class="modal__close btn__close--modal" @click="closeModal">×</span>
             <h3 class="modal__title">{{ modalTitle }}</h3>
@@ -11,16 +11,17 @@
             <div class="model__footer">
                 <button
                     class="btn mr-2 btn__close--modal"
-                    @click="triggerUpdate"
-                    v-if="updateButtonActive"
-                >{{ updateButtonText }}</button>
-                <button
-                    class="btn mr-2 btn__close--modal"
                     @click="closeModal"
                 >{{ cancelButtonText }}</button>
                 <button
                     class="btn btn-secondary btn__close--modal"
+                    @click="triggerUpdate"
+                    v-if="updateButtonActive"
+                >{{ updateButtonText }}</button>
+                <button
+                    class="btn btn-secondary btn__close--modal"
                     @click="triggerSubmit"
+                    v-else
                 >{{ saveButtonText }}</button>
             </div>
         </div>
@@ -54,6 +55,7 @@ const emit = defineEmits(["updateTrigger", "submitTrigger", "closeTrigger"]);
 const closeModal = () => emit("closeTrigger");
 const triggerSubmit = () => emit("submitTrigger");
 const triggerUpdate = () => emit("updateTrigger");
+const handleClickOutside = (e) => e.target.className.includes('main__modal') ? closeModal() : null;
 </script>
 
 <style lang="scss" scoped>
