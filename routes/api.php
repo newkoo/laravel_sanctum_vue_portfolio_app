@@ -3,6 +3,8 @@
 use App\Http\Controllers\API\AboutController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\EducationController;
+use App\Http\Controllers\API\ExperienceController;
+use App\Http\Controllers\API\ProjectController;
 use App\Http\Controllers\API\ServiceController;
 use App\Http\Controllers\API\SkillController;
 use Illuminate\Http\Request;
@@ -50,4 +52,18 @@ Route::controller(EducationController::class)->group(function () {
     Route::post('/create_education', 'create_education');
     Route::put('/update_education/{id}', 'update_education');
     Route::delete('/delete_education/{id}', 'delete_education');
+});
+
+Route::controller(ExperienceController::class)->group(function () {
+    Route::get('/get_all_experience', 'get_all_experience');
+    Route::post('/create_experience', 'create_experience');
+    Route::put('/update_experience/{id}', 'update_experience');
+    Route::delete('/delete_experience/{id}', 'delete_experience');
+});
+Route::controller(ProjectController::class)->group(function () {
+    Route::get('/get_all_project', 'get_all_project');
+    Route::post('/create_project', 'create_project');
+    Route::get('/get_project/{id}', 'get_project');
+    Route::put('/update_project/{id}', 'update_project');
+    Route::delete('/delete_project/{id}', 'delete_project');
 });

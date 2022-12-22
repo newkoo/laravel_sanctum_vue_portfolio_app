@@ -45,6 +45,82 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Education
+ *
+ * @property int $id
+ * @property string|null $institution
+ * @property string|null $period
+ * @property string|null $degree
+ * @property string|null $department
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\EducationFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Education newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Education newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Education query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Education whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Education whereDegree($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Education whereDepartment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Education whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Education whereInstitution($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Education wherePeriod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Education whereUpdatedAt($value)
+ */
+	class Education extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Experience
+ *
+ * @property int $id
+ * @property string|null $company
+ * @property string|null $period
+ * @property string|null $position
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\ExperienceFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Experience newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Experience newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Experience query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Experience whereCompany($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Experience whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Experience whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Experience wherePeriod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Experience wherePosition($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Experience whereUpdatedAt($value)
+ */
+	class Experience extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Project
+ *
+ * @property int $id
+ * @property string|null $title
+ * @property string|null $description
+ * @property string|null $link
+ * @property string|null $photo
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\ProjectFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Project newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Project newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Project query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Project whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Project whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Project whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Project whereLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Project wherePhoto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Project whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Project whereUpdatedAt($value)
+ */
+	class Project extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Service
  *
  * @property int $id

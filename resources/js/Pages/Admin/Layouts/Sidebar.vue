@@ -26,6 +26,9 @@ const navLinks = ref([
     { to: '/about', name: 'About Us', icon: 'fas fa-home' },
     { to: '/services', name: 'Services', icon: 'fas fa-home' },
     { to: '/skills', name: 'Skills', icon: 'fas fa-home' },
+    { to: '/educations', name: 'Educations', icon: 'fas fa-home' },
+    { to: '/experiences', name: 'Experiences', icon: 'fas fa-home' },
+    { to: '/projects', name: 'Projects', icon: 'fas fa-home' },
 ]);
 
 </script>
