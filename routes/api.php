@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\API\AboutController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\EducationController;
 use App\Http\Controllers\API\ServiceController;
+use App\Http\Controllers\API\SkillController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,4 +37,17 @@ Route::controller(ServiceController::class)->group(function () {
     Route::post('create_service', 'create_service');
     Route::put('update_service/{id}', 'update_service');
     Route::delete('delete_service/{id}', 'delete_service');
+});
+Route::controller(SkillController::class)->group(function () {
+    Route::get('/get_all_skills', 'get_all_skills');
+    Route::post('/create_skill', 'create_skill');
+    Route::put('/update_skill/{id}', 'update_skill');
+    Route::delete('/delete_skill/{id}', 'delete_skill');
+});
+
+Route::controller(EducationController::class)->group(function () {
+    Route::get('/get_all_education', 'get_all_education');
+    Route::post('/create_education', 'create_education');
+    Route::put('/update_education/{id}', 'update_education');
+    Route::delete('/delete_education/{id}', 'delete_education');
 });

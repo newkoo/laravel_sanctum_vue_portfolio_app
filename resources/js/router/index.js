@@ -21,8 +21,8 @@ const router = createRouter({
 router.beforeEach((to, from) => {
     let token = getUserLocalInfo("token");
     let requiresAuth = to.meta.requiresAuth;
-    if (requiresAuth && !token) return { name: "PagesAuthLogin" }
-    if (!requiresAuth && token) return { name: 'AdminHomeIndex' }
+    if (requiresAuth && !token) return { path: "/login" }
+    if (!requiresAuth && token) return { path: '/Admin/home' }
 })
 
 export default router;

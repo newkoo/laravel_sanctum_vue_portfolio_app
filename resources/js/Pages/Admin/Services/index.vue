@@ -11,7 +11,7 @@
             </div>
 
             <Datatable
-                card-title="Skills"
+                card-title="Services"
                 request-u-r-l="/get_all_services"
                 method="get"
                 :data-content="dataContent"
@@ -96,7 +96,8 @@ const dataContent = [
     },
     {
         data: "description",
-        headText: "Description"
+        headText: "Description",
+
     },
     {
         data: "id",
@@ -138,8 +139,8 @@ const closeModal = () => (editMode.value = false, showModal.value = !hideModal.v
 const initService = (service) => (service.forEach(e => formData.value[e.name] = e.value));
 const createService = async () => {
     await axios_request.post('/create_service', formData.value).then((result) => {
-        getServices(), closeModal(), resetFormData();
         Swal.fire("Service Add Successfully", "", "success");
+        closeModal(), resetFormData();
     }).catch((err) => {
         axios_catcher(err);
     });
@@ -168,7 +169,7 @@ const deleteItem = async (id) => {
         if (result.isConfirmed) {
             await axios_request.delete('/delete_service/' + id).then((result) => {
                 Swal.fire("Success", "Service Deleted", "success");
-                getServices(), closeModal(), resetFormData();
+                closeModal(), resetFormData();
             }).catch((err) => {
                 axios_catcher(err)
             });

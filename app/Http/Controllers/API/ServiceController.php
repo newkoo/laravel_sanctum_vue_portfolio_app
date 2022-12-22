@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service;
+use DB;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -12,8 +13,11 @@ class ServiceController extends Controller
     {
         $services = Service::orderBy('id', 'DESC')->get();
 
+        $tableHeads = ['Ad', 'İkon', 'Açıklama'];
         $response = [
-            'services' => $services
+            'data' => $services,
+            'theads' => $tableHeads,
+            'totalData' => $services->count()
         ];
         return response()->json($response, 200);
     }

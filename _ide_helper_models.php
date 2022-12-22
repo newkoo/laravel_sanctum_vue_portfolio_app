@@ -69,6 +69,31 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Skill
+ *
+ * @property int $id
+ * @property string|null $name
+ * @property int|null $proficiency
+ * @property int|null $service_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Service|null $service
+ * @method static \Database\Factories\SkillFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereProficiency($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereServiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereUpdatedAt($value)
+ */
+	class Skill extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\User
  *
  * @property int $id
